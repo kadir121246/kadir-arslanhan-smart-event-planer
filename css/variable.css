@@ -1,0 +1,385 @@
+/* ============================================================
+   variables.css
+   Tüm CSS değişkenleri (renk paleti, boyutlar, font)
+   ============================================================ */
+
+:root {
+  --bg-main:       #0d1117;
+  --bg-sidebar:    #161b22;
+  --bg-card:       #1c2230;
+  --bg-card-hover: #222b3a;
+  --accent:        #3b82f6;
+  --accent-soft:   #1d4ed8;
+  --accent-glow:   rgba(59,130,246,.25);
+  --success:       #10b981;
+  --danger:        #ef4444;
+  --warning:       #f59e0b;
+  --text-primary:  #e6edf3;
+  --text-muted:    #8b949e;
+  --border:        rgba(255,255,255,.07);
+  --radius:        14px;
+  --sidebar-w:     260px;
+}
+
+/* ============================================================
+   stats.css
+   İstatistikler sayfası: ilerleme çubukları, yaklaşan liste
+   ============================================================ */
+
+.stat-bar-wrap { margin-bottom: 14px; }
+
+.stat-bar-label {
+  font-size: .8rem; color: var(--text-muted); margin-bottom: 5px;
+  display: flex; justify-content: space-between;
+}
+
+.stat-bar-bg {
+  background: rgba(255,255,255,.06);
+  border-radius: 6px; height: 8px; overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%; border-radius: 6px;
+  transition: width .6s ease;
+}
+
+/* Yaklaşan etkinlikler bölüm başlığı */
+.upcoming-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--text-muted);
+  margin-top: 1.5rem; margin-bottom: 0.75rem;
+}
+
+/* ============================================================
+   sidebar.css
+   Sidebar navigasyon, logo, kategori butonları, mobil toggle
+   ============================================================ */
+
+#sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+/* Logo alanı */
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-logo .logo-icon {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, var(--accent), var(--success));
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: #fff;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+.sidebar-logo h5 { font-size: .95rem; color: var(--text-primary); margin: 0; line-height: 1.2; }
+.sidebar-logo small { color: var(--text-muted); font-size: .72rem; }
+
+/* Bölüm etiketi */
+.nav-section-label {
+  font-size: .65rem; font-weight: 700; letter-spacing: .12em;
+  color: var(--text-muted); text-transform: uppercase;
+  padding: 18px 24px 6px;
+}
+
+/* Nav linkleri */
+.sidebar-nav .nav-item .nav-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 24px;
+  color: var(--text-muted);
+  border-radius: 0;
+  font-size: .875rem; font-weight: 500;
+  transition: all .2s;
+  border-left: 3px solid transparent;
+}
+.sidebar-nav .nav-item .nav-link i { font-size: 1.05rem; width: 20px; text-align: center; }
+.sidebar-nav .nav-item .nav-link:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,.04);
+}
+.sidebar-nav .nav-item .nav-link.active {
+  color: var(--accent);
+  background: rgba(59,130,246,.1);
+  border-left-color: var(--accent);
+}
+
+/* Kategori filtre butonları */
+.cat-filter-group { padding: 8px 16px 16px; }
+.cat-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 7px 14px; border-radius: 8px;
+  font-size: .78rem; font-weight: 500; cursor: pointer;
+  transition: all .2s; width: 100%; margin-bottom: 6px;
+}
+.cat-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+.cat-btn.active { background: rgba(59,130,246,.15); border-color: var(--accent); color: var(--accent); }
+.cat-btn .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* Mobil toggle butonu */
+#sidebarToggle {
+  display: none;
+  position: fixed; top: 16px; left: 16px; z-index: 1100;
+  background: var(--accent); color: #fff; border: none;
+  width: 40px; height: 40px; border-radius: 10px;
+  font-size: 1.1rem; cursor: pointer;
+  align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+#sidebarOverlay {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #sidebarToggle { display: flex; }
+  #sidebarOverlay.open { display: block; }
+}
+
+/* ============================================================
+   layout.css
+   Reset, body, ana içerik alanı, üst bar, scrollbar
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1,h2,h3,h4,h5 { font-family: 'DM Serif Display', serif; }
+
+/* Ambient arka plan deseni */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 50% at 70% -10%, rgba(59,130,246,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 0% 80%,  rgba(16,185,129,.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Ana içerik */
+#mainContent {
+  margin-left: var(--sidebar-w);
+  padding: 32px;
+  min-height: 100vh;
+  transition: margin-left .3s;
+}
+
+/* Üst bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.topbar h2 { font-size: 1.6rem; margin: 0; }
+
+.badge-count {
+  background: rgba(59,130,246,.15);
+  color: var(--accent);
+  border: 1px solid rgba(59,130,246,.3);
+  font-size: .75rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 3px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  #mainContent {
+    margin-left: 0;
+    padding: 20px 16px;
+    padding-top: 70px;
+  }
+}
+
+/* ============================================================
+   forms.css
+   Form paneli ve form elemanları stilleri
+   ============================================================ */
+
+.form-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.form-panel .form-label {
+  font-size: .82rem; font-weight: 600;
+  color: var(--text-muted); margin-bottom: 6px;
+}
+
+.form-panel .form-control,
+.form-panel .form-select {
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: 10px;
+  font-size: .875rem; padding: 10px 14px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.form-panel .form-control:focus,
+.form-panel .form-select:focus {
+  background: rgba(255,255,255,.07);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  color: var(--text-primary);
+  outline: none;
+}
+.form-panel .form-control::placeholder { color: var(--text-muted); }
+.form-panel .form-select option { background: #1c2230; }
+
+/* Kaydet butonu */
+.btn-primary-custom {
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  border: none; color: #fff; border-radius: 10px;
+  padding: 11px 28px; font-weight: 600; font-size: .875rem;
+  transition: all .2s; box-shadow: 0 4px 14px var(--accent-glow);
+}
+.btn-primary-custom:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+/* Temizle butonu */
+.btn-reset-custom {
+  background: rgba(255,255,255,.06);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 20px;
+  font-size: .875rem;
+}
+
+/* ============================================================
+   events.css
+   Etkinlik kartları ve kategori rozetleri
+   ============================================================ */
+
+/* Kart animasyonu */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Etkinlik kartı */
+.event-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  transition: all .25s;
+  animation: fadeInUp .35s ease both;
+}
+.event-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255,255,255,.12);
+}
+.event-card.completed { opacity: .5; }
+.event-card.completed .event-title { text-decoration: line-through; }
+
+/* Kategori rozetleri */
+.cat-badge {
+  font-size: .68rem; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.cat-is     { background: rgba(59,130,246,.15); color: #60a5fa; border: 1px solid rgba(59,130,246,.3); }
+.cat-sosyal { background: rgba(245,158,11,.15);  color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+.cat-egitim { background: rgba(16,185,129,.15);  color: #34d399; border: 1px solid rgba(16,185,129,.3); }
+.cat-kisisel{ background: rgba(167,139,250,.15); color: #a78bfa; border: 1px solid rgba(167,139,250,.3); }
+
+/* Kart içi metin */
+.event-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+.event-date  { font-size: .78rem; color: var(--text-muted); }
+.event-desc  { font-size: .82rem; color: var(--text-muted); margin-top: 8px; line-height: 1.5; }
+
+/* Aksiyon butonları */
+.event-actions .btn { font-size: .75rem; padding: 5px 12px; border-radius: 8px; }
+.btn-done   { background: rgba(16,185,129,.15); border: 1px solid rgba(16,185,129,.3); color: #34d399; }
+.btn-done:hover  { background: rgba(16,185,129,.3); color: #34d399; }
+.btn-delete { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.25); color: #f87171; }
+.btn-delete:hover { background: rgba(239,68,68,.25); color: #f87171; }
+
+/* ============================================================
+   components.css
+   Paylaşılan bileşenler: stat kartları, geri sayım, boş durum
+   ============================================================ */
+
+/* Stat kartları (ana sayfa özet) */
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: transform .2s, box-shadow .2s;
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+.stat-card .stat-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 12px;
+}
+.stat-card .stat-value { font-size: 1.8rem; font-weight: 700; line-height: 1; }
+.stat-card .stat-label { font-size: .78rem; color: var(--text-muted); margin-top: 4px; }
+
+/* Geri sayım alanı */
+#countdownSection {
+  background: linear-gradient(135deg, rgba(59,130,246,.15), rgba(16,185,129,.08));
+  border: 1px solid rgba(59,130,246,.25);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+#countdownSection h6 {
+  font-size: .75rem; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--accent); margin-bottom: 6px;
+  font-family: 'DM Sans', sans-serif; font-weight: 600;
+}
+#countdownSection .event-name { font-size: 1rem; font-weight: 600; margin-bottom: 12px; }
+
+.countdown-boxes { display: flex; gap: 10px; flex-wrap: wrap; }
+.cd-box {
+  background: rgba(255,255,255,.07); border-radius: 10px;
+  padding: 10px 16px; text-align: center; min-width: 64px;
+}
+.cd-box .cd-val { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+.cd-box .cd-lbl {
+  font-size: .65rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .08em; margin-top: 2px;
+}
+
+/* Boş durum */
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+.empty-state i { font-size: 3rem; opacity: .3; display: block; margin-bottom: 14px; }
+.empty-state p { font-size: .9rem; }
